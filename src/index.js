@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import YTSearch from 'youtube-api-search';
+import SearchBar from './components/search_bar'; //file reference ./ means current directory
+import VideoList from './components/video_list';
+const API_KEY = 'AIzaSyAWFK1H29PrYAS79JBhmkRPW9RPACc5-v8';
 
-import App from './components/app';
-import reducers from './reducers';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
 
-ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
-    <App />
-  </Provider>
-  , document.querySelector('.container'));
+// Create new component. This component should produce some HTML
+class App extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = { videos: [] };
+        
+        YTSearch({key: API_KEY, term: 'surfboards'}, (videos) => {
+            this.setState ({ videos });
+            //this.setState ({ videos: videos }); when the key and the property are the same name
+            
+        });
+    }
+
+    render() {
+        return ( 
+            <div>
+                <SearchBar / >
+                <VideoList videos= {this.state.videos}/> 
+                {/* //passing props from parent to child */}
+            </div>
+        );
+    }
+}
+
+
+// Take this compenent's generated HTML and put it on the page (in the DOM)
+ReactDOM.render( < App / > , document.querySelector('.container')); 
+//Go render instance of App and inserter into container class
