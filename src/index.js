@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import YTSearch from 'youtube-api-search';
 import SearchBar from './components/search_bar'; //file reference ./ means current directory
 import VideoList from './components/video_list';
-const API_KEY = 'AIzaSyAWFK1H29PrYAS79JBhmkRPW9RPACc5-v8';
+
+const API_KEY = `${process.env.REACT_APP_API_KEY}`
 
 
 
